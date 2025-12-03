@@ -19,9 +19,14 @@ const Reviews: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedReviewIndex, setSelectedReviewIndex] = useState<number | null>(null);
   
-  // Ref to track touch dragging state to prevent accidental clicks during scroll
+  // Ref to track touch dragging state to prevent accidental clicks during scroll (main list)
   const isDragging = useRef(false);
   const touchStartX = useRef(0);
+
+  // Swipe state for Lightbox
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -54,6 +59,30 @@ const Reviews: React.FC = () => {
     if (selectedReviewIndex === null) return;
     setSelectedReviewIndex((prev) => (prev === null ? null : (prev - 1 + REVIEW_IMAGES.length) % REVIEW_IMAGES.length));
   }, [selectedReviewIndex]);
+
+  // Touch Handlers for Lightbox Swipe
+  const onTouchStartModal = (e: React.TouchEvent) => {
+    setTouchEnd(null); // Reset
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMoveModal = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndModal = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      nextReview(); // Swiped left -> Go Next
+    }
+    if (isRightSwipe) {
+      prevReview(); // Swiped right -> Go Prev
+    }
+  };
 
   // Keyboard navigation for modal
   useEffect(() => {
@@ -167,6 +196,9 @@ const Reviews: React.FC = () => {
         <div 
           className="fixed inset-0 z-[100] bg-brand-chocolate/95 dark:bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in-up duration-300"
           onClick={closeModal}
+          onTouchStart={onTouchStartModal}
+          onTouchMove={onTouchMoveModal}
+          onTouchEnd={onTouchEndModal}
         >
           {/* Close Button */}
           <button 
@@ -176,22 +208,22 @@ const Reviews: React.FC = () => {
             <X size={32} />
           </button>
 
-          {/* Prev Button - Optimized for Mobile */}
+          {/* Prev Button - Desktop Only */}
           <button 
-            className="fixed left-4 top-1/2 -translate-y-1/2 md:absolute md:-left-24 z-[110] p-3 bg-white/10 backdrop-blur-md md:bg-transparent md:backdrop-blur-none rounded-full text-white hover:bg-white/20 transition-all shadow-lg md:shadow-none"
+            className="hidden md:block absolute -left-24 z-[110] p-3 hover:bg-white/10 rounded-full text-white hover:text-brand-cream transition-all"
             onClick={prevReview}
             aria-label="Previous image"
           >
-            <ChevronLeft size={36} className="drop-shadow-md" />
+            <ChevronLeft size={48} className="drop-shadow-md" />
           </button>
 
-          {/* Next Button - Optimized for Mobile */}
+          {/* Next Button - Desktop Only */}
           <button 
-            className="fixed right-4 top-1/2 -translate-y-1/2 md:absolute md:-right-24 z-[110] p-3 bg-white/10 backdrop-blur-md md:bg-transparent md:backdrop-blur-none rounded-full text-white hover:bg-white/20 transition-all shadow-lg md:shadow-none"
+            className="hidden md:block absolute -right-24 z-[110] p-3 hover:bg-white/10 rounded-full text-white hover:text-brand-cream transition-all"
             onClick={nextReview}
             aria-label="Next image"
           >
-            <ChevronRight size={36} className="drop-shadow-md" />
+            <ChevronRight size={48} className="drop-shadow-md" />
           </button>
 
           {/* Image Container */}
@@ -202,12 +234,17 @@ const Reviews: React.FC = () => {
             <img 
               src={REVIEW_IMAGES[selectedReviewIndex]} 
               alt="Full screen review" 
-              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-fade-in-up"
+              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-fade-in-up select-none pointer-events-none"
             />
             
             {/* Counter */}
             <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white/50 text-sm font-body tracking-widest">
               {selectedReviewIndex + 1} / {REVIEW_IMAGES.length}
+            </div>
+            
+            {/* Mobile Helper Text */}
+            <div className="md:hidden absolute -bottom-12 right-0 text-white/30 text-xs font-body uppercase tracking-wider animate-pulse">
+               Свайп &rarr;
             </div>
           </div>
         </div>
