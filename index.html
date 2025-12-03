@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homemade Baking by Ilona</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class', // Enable manual dark mode toggling
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                cream: '#F4E9DE', // Slightly lighter/cleaner for better contrast
+                chocolate: '#2D1B1B', // Much darker brown for better readability (was #4A2C2A)
+                berry: '#D47A7F', // Slightly more saturated
+                berryDark: '#A65D62', // Darker for readable headings
+                accent: '#C57B78',
+                // Dark Mode Specific Colors
+                dark: {
+                  bg: '#1F1210',     // Deepest Dark Chocolate
+                  card: '#36201D',   // Rich Milk Chocolate
+                  text: '#F4E9DE',   // Matching the new lighter cream
+                  section: '#291816' // Slightly lighter for alternating sections
+                }
+              }
+            },
+            fontFamily: {
+              script: ['"Great Vibes"', 'cursive'],
+              body: ['"Montserrat"', 'sans-serif'],
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 1s ease-out forwards',
+              'slow-zoom': 'slowZoom 20s linear infinite',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              slowZoom: {
+                '0%': { transform: 'scale(1)' },
+                '100%': { transform: 'scale(1.1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        /* Default Light Mode */
+        background-color: #F4E9DE; 
+        color: #2D1B1B;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      /* Dark Mode Overrides applied via class on html tag */
+      .dark body {
+        background-color: #1F1210;
+        color: #F4E9DE;
+      }
+      
+      .font-script {
+        font-family: 'Great Vibes', cursive;
+      }
+      .font-body {
+        font-family: 'Montserrat', sans-serif;
+      }
+
+      /* Jagged Edge / Receipt Mask Effect */
+      .mask-jagged-bottom {
+        --mask: radial-gradient(10px at 50% 100%, #0000 98%, #000) 50% calc(100% - 10px) / 20px 100% repeat-x;
+        -webkit-mask: var(--mask);
+        mask: var(--mask);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body class="bg-brand-cream text-brand-chocolate dark:bg-brand-dark-bg dark:text-brand-dark-text transition-colors duration-300">
+    <div id="root"></div>
+  </body>
+</html>
