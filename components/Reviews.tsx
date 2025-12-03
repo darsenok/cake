@@ -170,41 +170,43 @@ const Reviews: React.FC = () => {
         >
           {/* Close Button */}
           <button 
-            className="absolute top-4 right-4 md:top-8 md:right-8 text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-50"
+            className="fixed top-4 right-4 md:absolute md:top-8 md:right-8 text-white/70 hover:text-white transition-colors p-3 hover:bg-white/10 rounded-full z-[110]"
             onClick={closeModal}
           >
             <X size={32} />
           </button>
 
+          {/* Prev Button - Optimized for Mobile */}
+          <button 
+            className="fixed left-4 top-1/2 -translate-y-1/2 md:absolute md:-left-24 z-[110] p-3 bg-white/10 backdrop-blur-md md:bg-transparent md:backdrop-blur-none rounded-full text-white hover:bg-white/20 transition-all shadow-lg md:shadow-none"
+            onClick={prevReview}
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={36} className="drop-shadow-md" />
+          </button>
+
+          {/* Next Button - Optimized for Mobile */}
+          <button 
+            className="fixed right-4 top-1/2 -translate-y-1/2 md:absolute md:-right-24 z-[110] p-3 bg-white/10 backdrop-blur-md md:bg-transparent md:backdrop-blur-none rounded-full text-white hover:bg-white/20 transition-all shadow-lg md:shadow-none"
+            onClick={nextReview}
+            aria-label="Next image"
+          >
+            <ChevronRight size={36} className="drop-shadow-md" />
+          </button>
+
           {/* Image Container */}
           <div 
-            className="relative max-w-md w-full max-h-[90vh] flex items-center justify-center"
+            className="relative max-w-md w-full max-h-[85vh] flex items-center justify-center"
             onClick={(e) => e.stopPropagation()} 
           >
-            {/* Prev Button */}
-            <button 
-              className="absolute -left-12 md:-left-20 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
-              onClick={prevReview}
-            >
-              <ChevronLeft size={40} />
-            </button>
-
             <img 
               src={REVIEW_IMAGES[selectedReviewIndex]} 
               alt="Full screen review" 
-              className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl animate-fade-in-up"
+              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-fade-in-up"
             />
-
-            {/* Next Button */}
-            <button 
-              className="absolute -right-12 md:-right-20 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
-              onClick={nextReview}
-            >
-              <ChevronRight size={40} />
-            </button>
             
             {/* Counter */}
-            <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 text-white/50 text-sm font-body tracking-widest">
+            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white/50 text-sm font-body tracking-widest">
               {selectedReviewIndex + 1} / {REVIEW_IMAGES.length}
             </div>
           </div>
