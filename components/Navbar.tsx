@@ -158,7 +158,8 @@ const Navbar: React.FC = () => {
             {NAV_ITEMS.map((item, index) => (
               <div 
                 key={item.label}
-                className={`transform transition-all duration-500 delay-[${index * 50}ms] ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                className={`transform transition-all duration-500 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                style={{ transitionDelay: `${index * 50}ms` }}
               >
                 <a 
                   href={item.href}
@@ -171,7 +172,9 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          <div className={`mt-12 text-center transform transition-all duration-700 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div 
+            className={`mt-12 text-center transform transition-all duration-700 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+          >
             <div className="w-12 h-1 bg-brand-chocolate/10 dark:bg-brand-cream/10 mx-auto rounded-full mb-8 border-b border-dashed border-brand-chocolate/30"></div>
             <p className="text-brand-chocolate/60 dark:text-brand-cream/60 text-sm mb-4 font-body">Хотите сделать заказ?</p>
             <Button 
